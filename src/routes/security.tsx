@@ -59,7 +59,7 @@ function SecurityPage() {
           const Icon = t.icon;
           const total = Object.values(t.findings).reduce((a, b) => a + b, 0);
           return (
-            <motion.div key={t.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 * i }}
+            <motion.div key={t.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 * i, duration: 0.4 }}
               className="rounded-xl border border-border bg-card p-5">
               <div className="flex items-start justify-between mb-3">
                 <Icon className="h-5 w-5 text-primary" />
