@@ -34,10 +34,14 @@ export const Route = createRootRoute({
       { name: "description", content: "Multi-agent DevSecOps platform automating CI/CD, security and Kubernetes deployment, with blockchain certification — built with LangGraph + LLM." },
       { name: "author", content: "DeployAI" },
       { property: "og:title", content: "DeployAI — DevSecOps Intelligent Platform" },
-      { property: "og:description", content: "From git push to blockchain-certified production, autonomously. 8 cooperating LLM agents." },
+      { property: "og:description", content: "Multi-agent DevSecOps platform automating CI/CD, security and Kubernetes deployment, with blockchain certification — built with LangGraph + LLM." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "DeployAI — DevSecOps Intelligent Platform" },
+      { name: "twitter:description", content: "Multi-agent DevSecOps platform automating CI/CD, security and Kubernetes deployment, with blockchain certification — built with LangGraph + LLM." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/04c9cf14-4ab3-4054-a06e-6dd5708bcc71/id-preview-3b6a9b47--f2dae622-41df-4a52-85dd-becca3333f26.lovable.app-1777372144129.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/04c9cf14-4ab3-4054-a06e-6dd5708bcc71/id-preview-3b6a9b47--f2dae622-41df-4a52-85dd-becca3333f26.lovable.app-1777372144129.png" },
     ],
     links: [
       {
