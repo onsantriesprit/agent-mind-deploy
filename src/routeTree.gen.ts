@@ -10,13 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SecurityRouteImport } from './routes/security'
+import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as MonitoringRouteImport } from './routes/monitoring'
+import { Route as BlockchainRouteImport } from './routes/blockchain'
+import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SecurityRoute = SecurityRouteImport.update({
   id: '/security',
   path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PipelineRoute = PipelineRouteImport.update({
@@ -29,6 +37,16 @@ const MonitoringRoute = MonitoringRouteImport.update({
   path: '/monitoring',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlockchainRoute = BlockchainRouteImport.update({
+  id: '/blockchain',
+  path: '/blockchain',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsRoute = AgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,35 +55,69 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
+  '/blockchain': typeof BlockchainRoute
   '/monitoring': typeof MonitoringRoute
   '/pipeline': typeof PipelineRoute
+  '/reports': typeof ReportsRoute
   '/security': typeof SecurityRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
+  '/blockchain': typeof BlockchainRoute
   '/monitoring': typeof MonitoringRoute
   '/pipeline': typeof PipelineRoute
+  '/reports': typeof ReportsRoute
   '/security': typeof SecurityRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
+  '/blockchain': typeof BlockchainRoute
   '/monitoring': typeof MonitoringRoute
   '/pipeline': typeof PipelineRoute
+  '/reports': typeof ReportsRoute
   '/security': typeof SecurityRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/monitoring' | '/pipeline' | '/security'
+  fullPaths:
+    | '/'
+    | '/agents'
+    | '/blockchain'
+    | '/monitoring'
+    | '/pipeline'
+    | '/reports'
+    | '/security'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/monitoring' | '/pipeline' | '/security'
-  id: '__root__' | '/' | '/monitoring' | '/pipeline' | '/security'
+  to:
+    | '/'
+    | '/agents'
+    | '/blockchain'
+    | '/monitoring'
+    | '/pipeline'
+    | '/reports'
+    | '/security'
+  id:
+    | '__root__'
+    | '/'
+    | '/agents'
+    | '/blockchain'
+    | '/monitoring'
+    | '/pipeline'
+    | '/reports'
+    | '/security'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentsRoute: typeof AgentsRoute
+  BlockchainRoute: typeof BlockchainRoute
   MonitoringRoute: typeof MonitoringRoute
   PipelineRoute: typeof PipelineRoute
+  ReportsRoute: typeof ReportsRoute
   SecurityRoute: typeof SecurityRoute
 }
 
@@ -76,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/security'
       fullPath: '/security'
       preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pipeline': {
@@ -92,6 +151,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MonitoringRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blockchain': {
+      id: '/blockchain'
+      path: '/blockchain'
+      fullPath: '/blockchain'
+      preLoaderRoute: typeof BlockchainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents': {
+      id: '/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,8 +177,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentsRoute: AgentsRoute,
+  BlockchainRoute: BlockchainRoute,
   MonitoringRoute: MonitoringRoute,
   PipelineRoute: PipelineRoute,
+  ReportsRoute: ReportsRoute,
   SecurityRoute: SecurityRoute,
 }
 export const routeTree = rootRouteImport
