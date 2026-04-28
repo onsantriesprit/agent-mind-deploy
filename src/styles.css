@@ -151,7 +151,7 @@
     color: var(--foreground);
     background-image:
       var(--gradient-glow),
-      radial-gradient(ellipse 60% 50% at 100% 50%, var(--accent) / 0.06, transparent);
+      radial-gradient(ellipse 60% 50% at 100% 50%, color-mix(in oklab, var(--accent) 12%, transparent), transparent);
     background-attachment: fixed;
     min-height: 100vh;
   }
