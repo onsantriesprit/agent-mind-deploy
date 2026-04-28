@@ -1,6 +1,8 @@
-import { Bell, Search, Globe, Mic } from "lucide-react";
+import { Bell, Search, Globe, Mic, Sun, Moon } from "lucide-react";
+import { useTheme } from "./theme";
 
 export function TopBar({ title, subtitle }: { title: string; subtitle?: string }) {
+  const { theme, toggle } = useTheme();
   return (
     <header className="sticky top-0 z-30 flex items-center gap-4 px-6 lg:px-8 py-4 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="flex-1 min-w-0">
@@ -21,6 +23,15 @@ export function TopBar({ title, subtitle }: { title: string; subtitle?: string }
 
       <button className="h-9 w-9 grid place-items-center rounded-md border border-border bg-surface hover:bg-surface-2 transition-colors" title="Voice (Whisper)">
         <Mic className="h-4 w-4 text-primary" />
+      </button>
+      <button
+        onClick={toggle}
+        title={theme === "dark" ? "Switch to light" : "Switch to dark"}
+        aria-label="Toggle theme"
+        className="relative h-9 w-9 grid place-items-center rounded-md border border-border bg-surface hover:bg-surface-2 transition-colors overflow-hidden"
+      >
+        <Sun className={`h-4 w-4 absolute transition-all ${theme === "dark" ? "opacity-0 rotate-90 scale-50" : "opacity-100 rotate-0 scale-100 text-amber"}`} />
+        <Moon className={`h-4 w-4 absolute transition-all ${theme === "dark" ? "opacity-100 rotate-0 scale-100 text-primary" : "opacity-0 -rotate-90 scale-50"}`} />
       </button>
       <button className="h-9 px-3 grid place-items-center rounded-md border border-border bg-surface hover:bg-surface-2 transition-colors gap-1.5 flex">
         <Globe className="h-4 w-4 text-muted-foreground" />
