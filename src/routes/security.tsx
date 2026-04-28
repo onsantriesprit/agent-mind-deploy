@@ -57,7 +57,7 @@ function SecurityPage() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {tools.map((t, i) => {
           const Icon = t.icon;
-          const total = Object.values(t.findings).reduce((a, b) => a + b, 0);
+          const total = (Object.values(t.findings) as number[]).reduce((a, b) => a + b, 0);
           return (
             <motion.div key={t.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 * i, duration: 0.4 }}
               className="rounded-xl border border-border bg-card p-5">
