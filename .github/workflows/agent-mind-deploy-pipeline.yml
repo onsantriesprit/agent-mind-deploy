@@ -1,0 +1,108 @@
+name: agent-mind-deploy CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - './**'
+      - '.github/workflows/agent-mind-deploy-pipeline.yml'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - './**'
+
+env:
+  WORKING_DIR:        .
+  REGISTRY_HOST:      ${{ vars.REGISTRY_HOST || 'docker.io' }}
+  REGISTRY_USERNAME:  ${{ secrets.REGISTRY_USERNAME }}
+  REGISTRY_PASSWORD:  ${{ secrets.REGISTRY_PASSWORD }}
+  IMAGE_TAG:          ${{ vars.IMAGE_TAG || github.sha }}
+  ENABLE_DEPLOY:      ${{ vars.ENABLE_DEPLOY || 'false' }}
+
+jobs:
+  test:
+    name: Tests unitaires et sécurité
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: |
+          npm ci
+          npm test -- --watch=false
+
+  build:
+    needs: test
+    name: Build — agent-mind-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: |
+          npm ci
+          npm run build
+
+  package:
+    needs: build
+    name: Package — agent-mind-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: |
+          npm ci
+          npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: agent-mind-deploy
+          path: .
+
+  upload_artifact:
+    needs: package
+    name: Upload artifact — agent-mind-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: agent-mind-deploy
+      - uses: actions/upload-artifact@v4
+        with:
+          name: agent-mind-deploy
+          path: .
+
+  security_scan:
+    needs: upload_artifact
+    name: Sécurité — agent-mind-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: |
+          npm ci
+          npm audit --json --output=/tmp/audit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit
+          path: /tmp/audit.json
+
+  deploy:
+    needs: security_scan
+    name: Déploiement — agent-mind-deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && env.ENABLE_DEPLOY == 'true'
+    steps:
+      - uses: azure/setup-kubectl@v4
+      - run: |
+          kubectl apply -f .
+          kubectl rollout status deployment/agent-mind-deploy
